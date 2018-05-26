@@ -1,0 +1,246 @@
+<?php
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pac-Man</title>
+<style>
+    body{
+        background-color: black;
+    }
+    div#pac{
+        background-color: white;
+        width: 35px;
+        height: 35px;
+        position: fixed;
+        left: 90px;
+        top: 135px;
+        margin: 2px;
+    }
+    div#shell{
+        border: 1px solid white;
+        width: 80%;
+        height: 75%;
+        top: 85px;
+        left: 130px;
+        text-align: center;
+        position: fixed;
+        background-color: #DEB887;
+    }
+    /*width of entire screen = 1300px*/
+    /*height of entire screen = 680px*/
+    h1#title{
+        text-decoration: underline;
+        text-align: center;
+        font-family: courier new;
+        color: white;
+    }
+    div#word{
+        width: 2%;
+        float:left;
+        position: fixed;
+        color: white;
+        top: 25px;
+    }
+    div#score{
+        width: 4%;
+        color: white;
+        float: left;
+        position: fixed;
+        left: 4%;
+        top: 25px;
+    }
+    div.dot{
+        width: 100%;
+        height: 10px;
+        position: fixed;
+        display: initial;
+        background-color: white;
+    }
+    div#dot1{
+        left: 300px;
+        top: 400px;
+    }
+</style>
+<script type="text/javascript" src="jslibrary.js"></script>
+<meta name="description" content="Assignment ">
+<meta name="keywords" content="HTML, CSS, Example">
+<meta name="Author" content="Nick">
+<script>
+var key = 1;
+var arrowKey = 7;
+var xDir = "right";
+var yDir = "up";
+var score = 0;
+
+//get presses from arrow keys. Works for paddle
+function keys() {
+    var xff = event.keyCode;
+    if (xff == 40) { //down arrow
+        arrowKey = 40;
+    }
+    else if (xff == 38) { //up arrow
+        arrowKey = 38;
+    }
+    else if (xff == 37) { //left arrow
+        arrowKey = 37;
+    }
+    else if (xff == 39) { //right arrow
+        arrowKey = 39;
+    }
+}
+
+    
+var moveInt = setInterval("move()", 1);
+var dotInt = setInterval("dotCollision()", 100);
+console.log(moveInt);
+</script>
+</head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body onkeydown="keys();">
+<h1 id="title">Nick's Pac-Man</h1>
+<div id="word">Score: <div id="score">0</div></div>
+<div id="dot1" class="dot">text</div>
+<div id="shell">
+<div id="pac"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+//move function for pac-man.
+function move() {
+    var upDown = parseInt(getStyle("pac", "top"));
+    var leftRight = parseInt(getStyle("pac","left"));
+    var width = parseInt(getStyle("shell", "width")) - parseInt(getStyle("pac", "width"));
+    var height = parseInt(getStyle("shell", "height")) - parseInt(getStyle("pac", "height"));
+    
+    //arrow keys move down
+    if (arrowKey == 40) {
+        upDown = upDown + 2;
+    }
+    //arrow keys move up
+    else if (arrowKey == 38) {
+        upDown = upDown - 2;
+    }    
+    else if (arrowKey == 37) { //arrow keys move left
+        leftRight = leftRight - 2;
+    }
+    else if (arrowKey == 39) { //arrow keys move right
+        leftRight = leftRight + 2;
+    }
+    if (contains("pac", "shell")) {
+        //arrow keys bounce from frame down
+        if (upDown <= 85) {
+            upDown += 2;
+        }
+        else if (upDown >= height) {
+            upDown += -2;
+        }
+        else if (leftRight <= 130){
+            leftRight += 2;
+        }
+        else if (leftRight >= width){
+            leftRight += -2;
+        }
+    }
+    //update to new location
+    setStyle("pac", "top", upDown + "px");
+    setStyle("pac", "left", leftRight + "px");
+}
+
+function dotCollision(){
+if (collision("pac", "dot1")) {
+        if (parseInt(score) == 0) {
+            score = 10;
+        }
+        else {
+            score += 10;
+        }
+        setText("score", score);
+        setStyle("dot1", "background-color", "red");
+    }
+}
+//shell location data
+    var top = parseInt(getStyle("shell","top"));
+    var left = parseInt(getStyle("shell","left"));
+    var right = parseInt(getStyle("shell","right"));
+    var bottom = parseInt(getStyle("shell","bottom"));
+    
+    var t = "top";
+    var l = "left";
+
+    console.log(t);
+    console.log(top);
+    console.log(l);
+    console.log(left);
+
+
+
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
