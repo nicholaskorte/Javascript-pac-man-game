@@ -1,0 +1,141 @@
+// locate the element in the document with the speficiet id and return its contents
+
+function getText(id) {
+    var e = document.getElementById(id);
+    if (e === null) {
+        alert("There is no element with the id: \"" + id + "\" in this document.");
+        return null;
+    }
+    else {
+        return e.innerHTML;
+    }
+}
+
+// locate the element in the document with the specified id and change its contents to newText
+
+function setText(id, newText) {
+    var e = document.getElementById(id);
+    if (e === null) {
+        alert("There is no element with the id: \"" + id + "\" in this document.");
+        return false;
+    }
+    else {
+        e.innerHTML = newText;
+        return true;
+    }
+}
+
+// locate an element and add text to the end of what is already being displayed in it
+
+function addText(id, text) {
+    var current = getText(id);
+    var newText = current + text;
+    setText(id, newText);
+}
+
+function getStyle(id, property) {
+    var e = document.getElementById(id);
+    if (e === null) {
+        alert("There is no element with the crazy id: \"" + id + "\" in this document.");
+        return null;
+    }
+    var strValue = "";
+
+    // non-IE
+    if (window.getComputedStyle) {
+        strValue = getComputedStyle(e).getPropertyValue(property);
+    }
+    //IE
+    else if (e.currentStyle) {
+        try {
+            strValue = e.currentStyle[property];
+        }
+        catch (e) {
+            alert("The element with id: " + id + " does not contain a style property: " + property);
+        }
+    }
+
+    return strValue;
+}
+
+function setStyle(id, property, value) {
+    var e = document.getElementById(id);
+    if (e === null) {
+        alert("There is no element with the insane id: \"" + id + "\" in this document.");
+        return null;
+    }
+    var cmd = "document.getElementById('" + id + "').style." + camelCase(property) + "='" + value + "';";
+    eval(cmd);
+
+    function camelCase(str) {
+        return str.replace(/\-([a-z])/gi, function(match, p1) { // p1 references submatch in parentheses
+            return p1.toUpperCase(); // convert first letter after "-" to uppercase
+        });
+    }
+}
+
+
+
+function collision(id1, id2) {
+    var left1 = parseInt(getStyle(id1, "left"));
+    var right1 = left1 + parseInt(getStyle(id1, "width"));
+    var top1 = parseInt(getStyle(id1, "top"));
+    var bottom1 = top1 + parseInt(getStyle(id1, "height"));
+
+    var left2 = parseInt(getStyle(id2, "left"));
+    var right2 = left2 + parseInt(getStyle(id2, "width"));
+    var top2 = parseInt(getStyle(id2, "top"));
+    var bottom2 = top2 + parseInt(getStyle(id2, "height"));
+
+    if (left1 > right2) {
+        return false;
+    }
+    else if (right1 < left2) {
+        return false;
+    }
+    if (top1 > bottom2) {
+        return false;
+    }
+    if (bottom1 < top2) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+//id1 = thing inside while id2 = the  thing surrounding 
+function contains(id1, id2) {
+    var left1 = parseInt(getStyle(id1, "left"));
+    var top1 = parseInt(getStyle(id1, "top"));
+    var width1 = parseInt(getStyle(id1, "width"));
+    var width2 = parseInt(getStyle(id2, "width"));
+    var height1 = parseInt(getStyle(id1, "height"));
+    var height2 = parseInt(getStyle(id2, "height"));
+    
+    if (left1 <= 5) {
+        return false;
+    }
+    else if (left1 > width2 - width1) {
+        return false;
+    }
+    else if (top1 < 0) {
+        return false;
+    }
+    else if (top1 > height2 - height1) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
